@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Iris — Your life, handled.">
+<title>iris. — Your life, handled.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --iris:#5b5bd6;--iris-lt:#eeeeff;--iris-mid:#8b8be8;
+  --ink:#1a1824;--ink2:#3d3852;--ink3:#7a758f;--ink4:#b8b3cc;
+  --bg:#faf8f5;--s1:#fff;--s2:#f5f2ee;--s3:#ede9e3;
+  --green:#22c55e;--amber:#f59e0b;--rose:#e05c7a;--teal:#0ea5e9;
+  --border:rgba(91,91,214,.10);--border2:rgba(91,91,214,.18);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:.4;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:68px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 48px;
+  background:rgba(250,248,245,.85);backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(91,91,214,.08);}
+.nav-logo{display:flex;align-items:center;gap:11px;text-decoration:none;cursor:pointer;}
+.nav-wordmark{font-family:'Fraunces',serif;font-size:22px;font-weight:300;color:var(--ink);letter-spacing:-.03em;}
+.nav-wordmark em{font-style:italic;color:var(--iris);}
+.nav-links{display:flex;align-items:center;gap:36px;}
+.nav-links a{font-size:13px;font-weight:400;color:var(--ink3);text-decoration:none;transition:color .2s;cursor:pointer;}
+.nav-links a:hover{color:var(--iris);}
+.nav-cta{padding:9px 22px;border-radius:30px;background:var(--iris);color:#fff;
+  font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;
+  transition:all .2s;box-shadow:0 4px 20px rgba(91,91,214,.28);}
+.nav-cta:hover{box-shadow:0 6px 28px rgba(91,91,214,.38);transform:translateY(-1px);}
+.nav-mobile-toggle{display:none;background:none;border:none;cursor:pointer;padding:4px;}
+.nav-mobile-toggle svg{width:20px;height:20px;stroke:var(--ink2);stroke-width:1.8;fill:none;stroke-linecap:round;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:110px 40px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);
+  width:900px;height:600px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(91,91,214,.07) 0%,transparent 65%);pointer-events:none;}
+.blob1{position:absolute;top:15%;right:5%;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(239,68,68,.06) 0%,rgba(245,197,24,.04) 40%,transparent 70%);
+  animation:blobDrift 12s ease-in-out infinite;pointer-events:none;}
+.blob2{position:absolute;bottom:10%;left:5%;width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(14,165,233,.06) 0%,rgba(91,91,214,.05) 50%,transparent 70%);
+  animation:blobDrift 16s ease-in-out infinite reverse;pointer-events:none;}
+@keyframes blobDrift{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(20px,-15px) scale(1.04);}66%{transform:translate(-10px,20px) scale(.97);}}
+.hero-logo-wrap{margin-bottom:28px;}
+.hero-logo-wrap svg{filter:drop-shadow(0 8px 32px rgba(91,91,214,.18));}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.24em;color:var(--ink4);text-transform:uppercase;margin-bottom:20px;}
+.hero-h1{font-family:'Fraunces',serif;font-size:clamp(56px,9vw,100px);line-height:1.0;letter-spacing:-.04em;margin-bottom:8px;font-weight:300;}
+.hero-h1 em{font-style:italic;color:var(--iris);}
+.hero-h2{font-family:'Fraunces',serif;font-size:clamp(18px,3vw,28px);color:var(--ink3);font-weight:300;font-style:italic;margin-bottom:32px;}
+.hero-sub{font-size:clamp(15px,2vw,17px);color:var(--ink3);line-height:1.75;max-width:480px;font-weight:300;margin-bottom:48px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:72px;}
+.btn-dl{display:flex;align-items:center;gap:11px;padding:14px 24px;border-radius:16px;text-decoration:none;font-size:14px;font-weight:500;transition:all .22s;border:1px solid transparent;}
+.btn-dl.ios{background:var(--ink);color:#fff;box-shadow:0 4px 18px rgba(26,24,36,.22);}
+.btn-dl.ios:hover{background:var(--iris);box-shadow:0 6px 28px rgba(91,91,214,.35);transform:translateY(-2px);}
+.btn-dl.and{background:transparent;border-color:var(--border2);color:var(--ink2);}
+.btn-dl.and:hover{border-color:var(--iris);color:var(--iris);transform:translateY(-2px);}
+.btn-dl svg{width:17px;height:17px;flex-shrink:0;}
+.csoon{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:rgba(245,158,11,.13);color:var(--amber);font-family:'DM Mono',monospace;flex-shrink:0;}
+
+/* phone mockup */
+.phone-wrap{position:relative;display:inline-flex;justify-content:center;}
+.phone-shadow{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:180px;height:40px;border-radius:50%;background:radial-gradient(ellipse,rgba(91,91,214,.18) 0%,transparent 70%);filter:blur(8px);}
+.phone{width:250px;height:496px;background:var(--bg);border-radius:44px;border:1.5px solid rgba(91,91,214,.14);box-shadow:0 0 0 1px rgba(0,0,0,.04),0 32px 80px rgba(26,24,36,.14),inset 0 1px 0 rgba(255,255,255,.9);overflow:hidden;position:relative;animation:phoneFloat 5s ease-in-out infinite;}
+@keyframes phoneFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.ph-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:72px;height:18px;background:#1a1824;border-radius:12px;z-index:10;}
+.ph-screen{position:absolute;inset:0;background:var(--bg);padding:40px 15px 12px;display:flex;flex-direction:column;}
+.ph-day{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.18em;color:var(--ink4);text-transform:uppercase;margin-bottom:2px;}
+.ph-greet{font-family:'Fraunces',serif;font-size:17px;color:var(--ink);margin-bottom:10px;font-weight:300;}
+.ph-greet em{font-style:italic;color:var(--iris);}
+.ph-card{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:11px;margin-bottom:7px;position:relative;overflow:hidden;}
+.ph-card::before{content:'';position:absolute;top:-16px;right:-16px;width:70px;height:70px;background:radial-gradient(circle,rgba(91,91,214,.06) 0%,transparent 70%);}
+.ph-irow{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
+.ph-ava{width:18px;height:18px;border-radius:6px;background:var(--iris-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ph-iname{font-size:8px;font-weight:500;color:var(--ink3);}
+.ph-online{font-size:7px;color:var(--green);font-family:'DM Mono',monospace;margin-left:auto;}
+.ph-txt{font-size:8.5px;color:var(--ink2);line-height:1.6;font-weight:300;}
+.ph-pill{display:inline-block;background:var(--iris-lt);color:var(--iris);font-weight:500;padding:1px 5px;border-radius:20px;font-size:8px;}
+.ph-act{margin-top:7px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.18);border-radius:9px;padding:7px 8px;}
+.ph-aq{font-size:8px;font-weight:500;color:var(--ink);margin-bottom:5px;line-height:1.4;}
+.ph-abs{display:flex;gap:4px;}
+.ph-ab{padding:4px 10px;border-radius:20px;font-size:7px;font-weight:600;border:none;cursor:default;font-family:'DM Sans',sans-serif;}
+.ph-ab.y{background:var(--ink);color:#fff;}.ph-ab.n{background:var(--s2);color:var(--ink3);}
+.ph-lbl{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.14em;color:var(--ink4);text-transform:uppercase;margin:6px 0 4px;}
+.ph-ev{display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--s1);border:1px solid var(--border);border-radius:9px;margin-bottom:3px;}
+.ph-bar{width:2.5px;border-radius:2px;align-self:stretch;min-height:14px;flex-shrink:0;}
+.ph-et{font-size:8px;font-weight:500;color:var(--ink);flex:1;}
+.ph-tm{font-family:'DM Mono',monospace;font-size:7px;color:var(--ink4);}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:16px 0;background:var(--s1);}
+.marquee-inner{display:flex;animation:marquee 28s linear infinite;width:max-content;}
+.marquee-inner:hover{animation-play-state:paused;}
+.mitem{display:flex;align-items:center;gap:10px;padding:0 32px;white-space:nowrap;font-family:'Fraunces',serif;font-size:16px;font-weight:300;font-style:italic;color:var(--ink3);}
+.mitem .dot{width:5px;height:5px;border-radius:50%;background:var(--iris);opacity:.4;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* PLAN / CONNECTION SECTION  — full-width dark hero */
+.plan-hero{position:relative;overflow:hidden;}
+.plan-hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,#1a1824 0%,#1e1a38 40%,#0d1a2e 100%);}
+.plan-inner{max-width:1100px;margin:0 auto;position:relative;z-index:2;padding:100px 40px;}
+
+/* connection cards row */
+.connection-lede{text-align:center;margin-bottom:64px;}
+.connection-lede .ey{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:16px;}
+.connection-lede h2{font-family:'Fraunces',serif;font-size:clamp(36px,5.5vw,60px);color:#fff;line-height:1.08;letter-spacing:-.03em;font-weight:300;margin-bottom:16px;}
+.connection-lede h2 em{font-style:italic;color:#c4c0ff;}
+.connection-lede p{font-size:16px;color:rgba(255,255,255,.42);line-height:1.8;font-weight:300;max-width:520px;margin:0 auto;}
+
+.connection-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:56px;}
+.conn-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:26px 22px;transition:border-color .22s,transform .22s;}
+.conn-card:hover{border-color:rgba(196,192,255,.2);transform:translateY(-2px);}
+.conn-icon{font-size:24px;margin-bottom:14px;}
+.conn-h{font-family:'Fraunces',serif;font-size:18px;color:#fff;font-weight:300;margin-bottom:8px;}
+.conn-p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.7;font-weight:300;}
+
+/* ask iris demo row */
+.ask-row{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+.ask-text .ey2{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;color:rgba(255,255,255,.25);text-transform:uppercase;margin-bottom:14px;}
+.ask-text h3{font-family:'Fraunces',serif;font-size:clamp(28px,4vw,40px);color:#fff;font-weight:300;line-height:1.15;letter-spacing:-.025em;margin-bottom:16px;}
+.ask-text h3 em{font-style:italic;color:#c4c0ff;}
+.ask-text p{font-size:14px;color:rgba(255,255,255,.42);line-height:1.8;font-weight:300;margin-bottom:24px;}
+.ask-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.ask-chip{padding:7px 15px;border-radius:20px;font-size:12px;font-weight:400;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);background:rgba(255,255,255,.04);transition:all .2s;cursor:default;}
+.ask-chip.hi{border-color:rgba(196,192,255,.25);color:#c4c0ff;background:rgba(91,91,214,.18);}
+
+/* plan mockup */
+.plan-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:24px;padding:24px;backdrop-filter:blur(8px);}
+.pc-hdr{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.07);}
+.pc-ava{width:30px;height:30px;border-radius:10px;background:rgba(91,91,214,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pc-name{font-size:13px;font-weight:500;color:#fff;}
+.pc-sub{font-size:10px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;margin-top:1px;}
+.pc-status{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:10px;color:#4ade80;font-family:'DM Mono',monospace;}
+.pc-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.pc-msg{background:rgba(91,91,214,.15);border:1px solid rgba(91,91,214,.2);border-radius:12px 12px 12px 3px;padding:10px 13px;margin-bottom:10px;}
+.pc-msg p{font-size:12px;color:rgba(255,255,255,.75);line-height:1.6;font-weight:300;}
+.pc-msg strong{color:#c4c0ff;font-weight:500;}
+.pc-task{display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:11px;margin-bottom:6px;}
+.pc-task-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.pc-task-t{font-size:11px;color:rgba(255,255,255,.6);flex:1;font-weight:300;}
+.pc-task-time{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.3);}
+.pc-inp{display:flex;gap:8px;margin-top:14px;}
+.pc-inp-f{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(255,255,255,.35);font-style:italic;}
+.pc-send{width:30px;height:30px;border-radius:10px;background:var(--iris);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pc-send svg{width:11px;height:11px;stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.plan-stars{position:absolute;inset:0;pointer-events:none;}
+
+/* FEATURES */
+.feat-section{padding:100px 40px;max-width:1100px;margin:0 auto;}
+.sec-ey{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--iris);text-transform:uppercase;margin-bottom:16px;}
+.sec-h{font-family:'Fraunces',serif;font-size:clamp(32px,5vw,52px);line-height:1.1;letter-spacing:-.025em;margin-bottom:18px;font-weight:300;}
+.sec-h em{font-style:italic;color:var(--iris);}
+.sec-p{font-size:16px;color:var(--ink3);line-height:1.75;max-width:500px;font-weight:300;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:56px;}
+.fc{background:var(--s1);border:1px solid var(--border);border-radius:22px;padding:28px 24px;transition:border-color .22s,transform .22s;position:relative;overflow:hidden;}
+.fc::before{content:'';position:absolute;top:-60px;right:-60px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,var(--fc-glow,rgba(91,91,214,.05)) 0%,transparent 70%);pointer-events:none;}
+.fc:hover{border-color:var(--border2);transform:translateY(-3px);}
+.fc-icon{width:44px;height:44px;border-radius:14px;background:var(--fc-bg,var(--iris-lt));display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:20px;}
+.fc-h{font-size:16px;font-weight:500;color:var(--ink);margin-bottom:9px;}
+.fc-p{font-size:13.5px;color:var(--ink3);line-height:1.7;font-weight:300;}
+
+/* PHILOSOPHY */
+.phil{padding:100px 40px;max-width:1100px;margin:0 auto;}
+.phil-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:56px;}
+.phil-big{background:var(--ink);border-radius:28px;padding:48px 44px;grid-column:span 2;display:flex;align-items:center;justify-content:space-between;gap:40px;position:relative;overflow:hidden;}
+.phil-big::before{content:'';position:absolute;top:-80px;left:-40px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(91,91,214,.18) 0%,transparent 60%);pointer-events:none;}
+.phil-big::after{content:'';position:absolute;bottom:-60px;right:60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(239,68,68,.07) 0%,rgba(245,197,24,.05) 50%,transparent 70%);pointer-events:none;}
+.phil-big-inner{position:relative;z-index:1;flex:1;}
+.phil-ey{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;color:rgba(255,255,255,.25);text-transform:uppercase;margin-bottom:14px;}
+.phil-big-h{font-family:'Fraunces',serif;font-size:38px;color:#fff;line-height:1.15;margin-bottom:12px;font-weight:300;}
+.phil-big-h em{font-style:italic;color:#c4c0ff;}
+.phil-big-p{font-size:14px;color:rgba(255,255,255,.4);line-height:1.8;font-weight:300;max-width:400px;}
+.phil-stat{text-align:center;flex-shrink:0;position:relative;z-index:1;}
+.ps-n{font-family:'Fraunces',serif;font-size:64px;color:#c4c0ff;line-height:1;margin-bottom:6px;font-style:italic;font-weight:200;}
+.ps-l{font-size:11px;color:rgba(255,255,255,.25);font-family:'DM Mono',monospace;letter-spacing:.1em;}
+.phil-card{background:var(--s1);border:1px solid var(--border);border-radius:28px;padding:36px 32px;}
+.pc2-ey{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--iris);text-transform:uppercase;margin-bottom:14px;}
+.pc2-h{font-family:'Fraunces',serif;font-size:24px;color:var(--ink);margin-bottom:12px;line-height:1.2;font-weight:300;}
+.pc2-h em{font-style:italic;color:var(--iris);}
+.pc2-p{font-size:14px;color:var(--ink3);line-height:1.75;font-weight:300;}
+
+/* CTA SECTION */
+.cta-sec{padding:100px 40px;text-align:center;position:relative;overflow:hidden;}
+.cta-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 700px 500px at 50% 50%,rgba(91,91,214,.07) 0%,transparent 65%);pointer-events:none;}
+.cta-inner{max-width:580px;margin:0 auto;position:relative;z-index:1;}
+.cta-h{font-family:'Fraunces',serif;font-size:clamp(36px,6vw,64px);margin-bottom:16px;letter-spacing:-.035em;font-weight:300;}
+.cta-h em{font-style:italic;color:var(--iris);}
+.cta-p{font-size:16px;color:var(--ink3);line-height:1.75;margin-bottom:44px;font-weight:300;max-width:420px;margin-left:auto;margin-right:auto;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;background:var(--s1);}
+.foot-left{display:flex;align-items:center;gap:12px;}
+.foot-wm{font-family:'Fraunces',serif;font-size:17px;font-weight:300;color:var(--ink2);}
+.foot-wm em{font-style:italic;color:var(--iris);}
+.foot-copy{font-size:11px;color:var(--ink4);font-family:'DM Mono',monospace;}
+.foot-links{display:flex;gap:28px;}
+.foot-links a{font-size:13px;color:var(--ink4);text-decoration:none;cursor:pointer;transition:color .18s;font-weight:300;}
+.foot-links a:hover{color:var(--iris);}
+
+/* ========================
+   SIGN UP PAGE
+   ======================== */
+.signup-page{min-height:100vh;display:flex;flex-direction:column;}
+.signup-body{flex:1;display:flex;align-items:center;justify-content:center;padding:100px 24px 60px;position:relative;overflow:hidden;}
+.signup-body::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:600px;border-radius:50%;background:radial-gradient(ellipse,rgba(91,91,214,.07) 0%,transparent 65%);pointer-events:none;}
+.signup-blob1{position:absolute;top:10%;right:5%;width:300px;height:300px;border-radius:50%;background:radial-gradient(ellipse,rgba(239,68,68,.05) 0%,rgba(245,197,24,.04) 40%,transparent 70%);animation:blobDrift 14s ease-in-out infinite;pointer-events:none;}
+.signup-blob2{position:absolute;bottom:10%;left:5%;width:260px;height:260px;border-radius:50%;background:radial-gradient(ellipse,rgba(14,165,233,.05) 0%,rgba(91,91,214,.04) 50%,transparent 70%);animation:blobDrift 18s ease-in-out infinite reverse;pointer-events:none;}
+
+.signup-card{background:var(--s1);border:1px solid var(--border);border-radius:28px;padding:52px 48px;width:100%;max-width:480px;position:relative;z-index:1;box-shadow:0 24px 80px rgba(91,91,214,.08);}
+
+.signup-logo{display:flex;justify-content:center;margin-bottom:24px;}
+.signup-logo svg{filter:drop-shadow(0 4px 16px rgba(91,91,214,.16));}
+
+.signup-h{font-family:'Fraunces',serif;font-size:32px;font-weight:300;letter-spacing:-.025em;text-align:center;margin-bottom:6px;}
+.signup-h em{font-style:italic;color:var(--iris);}
+.signup-sub{font-size:14px;color:var(--ink3);text-align:center;line-height:1.6;font-weight:300;margin-bottom:36px;}
+
+/* success state */
+.signup-success{display:none;text-align:center;padding:16px 0;}
+.signup-success.show{display:block;}
+.signup-success-icon{font-size:40px;margin-bottom:16px;}
+.signup-success h3{font-family:'Fraunces',serif;font-size:24px;font-weight:300;margin-bottom:8px;}
+.signup-success h3 em{font-style:italic;color:var(--iris);}
+.signup-success p{font-size:14px;color:var(--ink3);line-height:1.65;font-weight:300;}
+.signup-form-inner{}
+
+/* form */
+.form-row{margin-bottom:16px;}
+.form-row label{display:block;font-size:12px;font-weight:500;color:var(--ink3);margin-bottom:6px;letter-spacing:.02em;}
+.form-row input,.form-row select{width:100%;padding:12px 16px;border-radius:12px;border:1.5px solid rgba(91,91,214,.14);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;appearance:none;}
+.form-row input:focus,.form-row select:focus{border-color:var(--iris);box-shadow:0 0 0 3px rgba(91,91,214,.08);}
+.form-row input::placeholder{color:var(--ink4);}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* use type radio pills */
+.use-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+.use-pill input[type="radio"]{display:none;}
+.use-pill label{display:flex;flex-direction:column;align-items:center;gap:5px;padding:14px 10px;border-radius:14px;border:1.5px solid rgba(91,91,214,.12);cursor:pointer;transition:all .2s;text-align:center;background:var(--bg);}
+.use-pill label:hover{border-color:rgba(91,91,214,.25);}
+.use-pill input:checked+label{border-color:var(--iris);background:var(--iris-lt);}
+.use-pill-icon{font-size:20px;}
+.use-pill-label{font-size:12px;font-weight:500;color:var(--ink2);}
+.use-pill-sub{font-size:10px;color:var(--ink4);font-weight:300;}
+.use-pill input:checked+label .use-pill-label{color:var(--iris);}
+
+/* submit button */
+.signup-btn{width:100%;padding:14px;border-radius:14px;border:none;background:var(--iris);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all .22s;box-shadow:0 4px 20px rgba(91,91,214,.28);margin-top:8px;}
+.signup-btn:hover{box-shadow:0 6px 28px rgba(91,91,214,.38);transform:translateY(-1px);}
+.signup-btn:active{transform:scale(.98);}
+
+.signup-terms{text-align:center;font-size:11px;color:var(--ink4);margin-top:14px;line-height:1.6;}
+.signup-terms a{color:var(--iris);text-decoration:none;cursor:pointer;}
+
+/* divider */
+.or-row{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.or-line{flex:1;height:1px;background:rgba(91,91,214,.1);}
+.or-txt{font-family:'DM Mono',monospace;font-size:9px;color:var(--ink4);letter-spacing:.14em;}
+
+/* oauth buttons */
+.oauth-btn{width:100%;padding:11px 16px;border-radius:12px;border:1.5px solid rgba(91,91,214,.12);background:var(--s1);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:400;color:var(--ink2);cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .18s;margin-bottom:10px;}
+.oauth-btn:hover{border-color:rgba(91,91,214,.25);background:var(--bg);}
+.oauth-btn svg{flex-shrink:0;}
+.oauth-btn span{flex:1;text-align:center;}
+
+/* LEGAL */
+.legal-page{max-width:700px;margin:0 auto;padding:100px 40px 80px;}
+.lback{display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;color:var(--ink3);margin-bottom:48px;transition:color .18s;background:none;border:none;font-family:'DM Sans',sans-serif;font-weight:400;}
+.lback:hover{color:var(--iris);}
+.lback svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.ley{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--iris);text-transform:uppercase;margin-bottom:14px;}
+.lh1{font-family:'Fraunces',serif;font-size:44px;color:var(--ink);margin-bottom:8px;letter-spacing:-.025em;font-weight:300;}
+.lrev{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink4);margin-bottom:48px;}
+.lsec{margin-bottom:36px;}
+.lsec h2{font-family:'Fraunces',serif;font-size:20px;color:var(--ink);margin-bottom:12px;font-weight:300;}
+.lsec p,.lsec li{font-size:15px;color:var(--ink2);line-height:1.85;font-weight:300;margin-bottom:10px;}
+.lsec ul{list-style:none;padding:0;}
+.lsec ul li{padding-left:20px;position:relative;}
+.lsec ul li::before{content:'–';position:absolute;left:0;color:var(--iris);font-family:'DM Mono',monospace;}
+.ldiv{width:40px;height:1px;background:var(--iris);opacity:.25;margin:48px 0;}
+.lcont{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:24px 28px;margin-top:40px;}
+.lcont p{font-size:14px;color:var(--ink3);line-height:1.75;font-weight:300;margin:0;}
+.lcont a{color:var(--iris);text-decoration:none;}
+
+/* MOBILE */
+@media(max-width:780px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;flex-direction:column;position:absolute;top:68px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border);padding:20px;gap:18px;z-index:200;}
+  .nav-links.open{display:flex;}
+  .nav-mobile-toggle{display:block;}
+  .hero{padding:96px 24px 48px;}
+  .blob1,.blob2,.signup-blob1,.signup-blob2{display:none;}
+  .plan-inner{padding:64px 24px;}
+  .connection-grid{grid-template-columns:1fr;}
+  .ask-row{grid-template-columns:1fr;}
+  .plan-card{display:none;}
+  .feat-grid{grid-template-columns:1fr 1fr;}
+  .phil-grid{grid-template-columns:1fr;}
+  .phil-big{grid-column:span 1;flex-direction:column;padding:36px 28px;}
+  .feat-section,.phil,.cta-sec{padding:72px 24px;}
+  footer{padding:28px 24px;flex-direction:column;align-items:flex-start;gap:16px;}
+  .legal-page{padding:92px 24px 60px;}
+  .signup-card{padding:36px 24px;}
+  .form-row-2{grid-template-columns:1fr;}
+}
+@media(max-width:520px){.feat-grid{grid-template-columns:1fr;}.use-pills{grid-template-columns:1fr 1fr;}}
+
+/* ANIMS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.fu{animation:fadeUp .65s ease both;}
+.d1{animation-delay:.08s;}.d2{animation-delay:.18s;}.d3{animation-delay:.28s;}.d4{animation-delay:.38s;}.d5{animation-delay:.48s;}
+</style>
+</head>
+<body>
+
+<!-- SHARED NAV LOGO SVG SNIPPET referenced inline throughout -->
+
+<!-- ======== NAV ======== -->
+<nav id="main-nav">
+  <a class="nav-logo" onclick="showPage('home');return false;" href="#">
+    <svg viewBox="0 0 54 34" width="44" height="28" style="display:block;overflow:visible">
+      <path d="M3,28 Q27,-8 51,28"  fill="none" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M7,28 Q27,4  47,28"  fill="none" stroke="#f97316" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M12,28 Q27,13 42,28" fill="none" stroke="#f5c518" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M17,28 Q27,19 37,28" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M21,28 Q27,23 33,28" fill="none" stroke="#3b9ede" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M24,28 Q27,26 30,28" fill="none" stroke="#5b5bd6" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="3"  cy="28" r="3" fill="#5b5bd6"/>
+      <circle cx="51" cy="28" r="3" fill="#5b5bd6"/>
+    </svg>
+    <span class="nav-wordmark">iris<em>.</em></span>
+  </a>
+  <div class="nav-links" id="nav-links">
+    <a onclick="scrollToSection('plan-feat');return false;" href="#">Plan with Iris</a>
+    <a onclick="scrollToSection('features');return false;" href="#">Features</a>
+    <a onclick="scrollToSection('why-iris');return false;" href="#">Why Iris</a>
+    <button class="nav-cta" onclick="showPage('signup');">Join the waitlist</button>
+  </div>
+  <button class="nav-mobile-toggle" onclick="toggleNav()">
+    <svg viewBox="0 0 20 20"><line x1="2" y1="6" x2="18" y2="6"/><line x1="2" y1="10" x2="18" y2="10"/><line x1="2" y1="14" x2="18" y2="14"/></svg>
+  </button>
+</nav>
+
+
+<!-- ======== HOME PAGE ======== -->
+<div class="page active" id="page-home">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="blob1"></div>
+  <div class="blob2"></div>
+  <div class="hero-logo-wrap fu">
+    <svg viewBox="0 0 160 100" width="160" height="100" style="display:block;overflow:visible">
+      <path d="M8,78 Q80,-30 152,78"  fill="none" stroke="#ef4444" stroke-width="7" stroke-linecap="round"/>
+      <path d="M20,78 Q80,-4  140,78" fill="none" stroke="#f97316" stroke-width="7" stroke-linecap="round"/>
+      <path d="M33,78 Q80,18  127,78" fill="none" stroke="#f5c518" stroke-width="7" stroke-linecap="round"/>
+      <path d="M46,78 Q80,36  114,78" fill="none" stroke="#22c55e" stroke-width="7" stroke-linecap="round"/>
+      <path d="M59,78 Q80,50  101,78" fill="none" stroke="#3b9ede" stroke-width="7" stroke-linecap="round"/>
+      <path d="M72,78 Q80,62   88,78" fill="none" stroke="#5b5bd6" stroke-width="7" stroke-linecap="round"/>
+      <path d="M82,78 Q80,70   78,78" fill="none" stroke="#8b5cf6" stroke-width="7" stroke-linecap="round"/>
+      <line x1="0" y1="78" x2="160" y2="78" stroke="rgba(0,0,0,.07)" stroke-width="1.5"/>
+      <circle cx="8"   cy="78" r="7" fill="#5b5bd6"/>
+      <circle cx="152" cy="78" r="7" fill="#5b5bd6"/>
+    </svg>
+  </div>
+  <div class="hero-eyebrow fu d1">your AI executive assistant</div>
+  <h1 class="hero-h1 fu d2">Your life,<br><em>handled.</em></h1>
+  <p class="hero-h2 fu d3">The background agent that works while you live.</p>
+  <p class="hero-sub fu d4">Iris watches your calendars and schedule — then quietly handles the rest. No app to check. No prompts to write. Just a little magic, running in the background.</p>
+  <div class="hero-btns fu d5">
+    <a href="#" onclick="return false;" class="btn-dl ios">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      <div><div style="font-size:10px;font-weight:300;opacity:.65;margin-bottom:1px">Download on the</div><div>App Store</div></div>
+      <span class="csoon">Soon</span>
+    </a>
+    <a href="#" onclick="return false;" class="btn-dl and">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.33.2.7.24 1.06.12l11.81-6.82-2.52-2.52-10.35 9.22zM20.9 10.24l-2.83-1.63-2.82 2.82 2.82 2.82 2.85-1.64c.81-.46.81-1.9-.02-2.37zM1.01 1.35C.9 1.6.84 1.9.84 2.24v19.52c0 .34.06.64.17.89l.09.08 10.94-10.94v-.26L1.1 1.27l-.09.08zM14.06 8.43L3.24 1.61c-.36-.12-.73-.08-1.06.12l10.35 9.22 1.53-2.52z"/></svg>
+      <div><div style="font-size:10px;font-weight:300;opacity:.55;margin-bottom:1px">Get it on</div><div>Google Play</div></div>
+      <span class="csoon">Soon</span>
+    </a>
+    <button class="nav-cta" style="padding:14px 28px;border-radius:16px;font-size:15px;" onclick="showPage('signup')">Join the waitlist ✦</button>
+  </div>
+  <div class="phone-wrap fu d5">
+    <div class="phone-shadow"></div>
+    <div class="phone">
+      <div class="ph-notch"></div>
+      <div class="ph-screen">
+        <div class="ph-day">Friday · June 2026</div>
+        <div class="ph-greet">Good morning, <em>Marina</em></div>
+        <div class="ph-card">
+          <div class="ph-irow">
+            <div class="ph-ava">
+              <svg viewBox="0 0 36 22" width="10" height="7" overflow="visible">
+                <path d="M2,18 Q18,-4 34,18" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M6,18 Q18,4 30,18"  fill="none" stroke="#f5c518" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M11,18 Q18,10 25,18" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M16,18 Q18,16 20,18" fill="none" stroke="#5b5bd6" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="2"  cy="18" r="2" fill="#5b5bd6"/>
+                <circle cx="34" cy="18" r="2" fill="#5b5bd6"/>
+              </svg>
+            </div>
+            <span class="ph-iname">iris</span>
+            <span class="ph-online">● active</span>
+          </div>
+          <p class="ph-txt">Your <span class="ph-pill">3:00pm board call</span> conflicts with school pickup — I moved it to Thursday and sent reschedule notes.</p>
+          <div class="ph-act">
+            <div class="ph-aq">Confirm dinner reservation for tonight at 7:30?</div>
+            <div class="ph-abs">
+              <button class="ph-ab y">Confirm ✓</button>
+              <button class="ph-ab n">Change time</button>
+            </div>
+          </div>
+        </div>
+        <div class="ph-lbl">Today</div>
+        <div class="ph-ev"><div class="ph-bar" style="background:#5b5bd6"></div><div class="ph-et">Board prep · slides due</div><div class="ph-tm">9:00</div></div>
+        <div class="ph-ev"><div class="ph-bar" style="background:#22c55e"></div><div class="ph-et">Protected focus block</div><div class="ph-tm">11:00</div></div>
+        <div class="ph-ev"><div class="ph-bar" style="background:#f59e0b"></div><div class="ph-et">School pickup · Leo</div><div class="ph-tm">3:30</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span class="mitem">Plan a dinner with friends <span class="dot"></span></span>
+    <span class="mitem">Morning briefs <span class="dot"></span></span>
+    <span class="mitem">Smart scheduling <span class="dot"></span></span>
+    <span class="mitem">Zero pending actions <span class="dot"></span></span>
+    <span class="mitem">Protected family time <span class="dot"></span></span>
+    <span class="mitem">Invisible by design <span class="dot"></span></span>
+    <span class="mitem">Life, handled <span class="dot"></span></span>
+    <span class="mitem">More time for what matters <span class="dot"></span></span>
+    <span class="mitem">Plan a dinner with friends <span class="dot"></span></span>
+    <span class="mitem">Morning briefs <span class="dot"></span></span>
+    <span class="mitem">Smart scheduling <span class="dot"></span></span>
+    <span class="mitem">Zero pending actions <span class="dot"></span></span>
+    <span class="mitem">Protected family time <span class="dot"></span></span>
+    <span class="mitem">Invisible by design <span class="dot"></span></span>
+    <span class="mitem">Life, handled <span class="dot"></span></span>
+    <span class="mitem">More time for what matters <span class="dot"></span></span>
+  </div>
+</div>
+
+<!-- PLAN / CONNECTION — LEAD FEATURE -->
+<section class="plan-hero" id="plan-feat">
+  <div class="plan-hero-bg"></div>
+  <div class="plan-stars">
+    <svg width="100%" height="100%" style="position:absolute;inset:0;pointer-events:none;opacity:.6">
+      <circle cx="8%"  cy="18%" r="1"   fill="white" opacity=".4"/>
+      <circle cx="14%" cy="62%" r="1.5" fill="white" opacity=".3"/>
+      <circle cx="23%" cy="38%" r="1"   fill="white" opacity=".5"/>
+      <circle cx="34%" cy="12%" r="1"   fill="white" opacity=".3"/>
+      <circle cx="54%" cy="22%" r="1.5" fill="white" opacity=".4"/>
+      <circle cx="68%" cy="8%"  r="1"   fill="white" opacity=".35"/>
+      <circle cx="79%" cy="52%" r="1"   fill="white" opacity=".3"/>
+      <circle cx="88%" cy="28%" r="1.5" fill="white" opacity=".4"/>
+      <circle cx="93%" cy="72%" r="1"   fill="white" opacity=".3"/>
+      <circle cx="44%" cy="78%" r="1"   fill="white" opacity=".35"/>
+      <circle cx="62%" cy="68%" r="1.5" fill="white" opacity=".25"/>
+    </svg>
+  </div>
+  <div class="plan-inner">
+
+    <!-- LEDE: connection first -->
+    <div class="connection-lede">
+      <div class="ey">What makes Iris different</div>
+      <h2>The people in your life<br>deserve your <em>full attention.</em></h2>
+      <p>Iris handles the logistics of bringing people together — so when you're there, you're actually <em style="color:rgba(255,255,255,.65);">there.</em> Less coordinating. More connecting.</p>
+    </div>
+
+    <!-- Connection scenario cards -->
+    <div class="connection-grid">
+      <div class="conn-card">
+        <div class="conn-icon">👨‍👩‍👧</div>
+        <h3 class="conn-h">Families</h3>
+        <p class="conn-p">School pickups protected. Dinner nights blocked. Iris keeps the calendar honest so family time stays family time.</p>
+      </div>
+      <div class="conn-card">
+        <div class="conn-icon">🥂</div>
+        <h3 class="conn-h">Friends</h3>
+        <p class="conn-p">"We should get together" actually happens. Tell Iris who and when — it finds the time and sorts the details.</p>
+      </div>
+      <div class="conn-card">
+        <div class="conn-icon">🤝</div>
+        <h3 class="conn-h">Work</h3>
+        <p class="conn-p">Meetings that need to happen, happen. Conflicts resolved before anyone notices. Focus time defended quietly.</p>
+      </div>
+    </div>
+
+    <!-- Ask Iris demo -->
+    <div class="ask-row">
+      <div class="ask-text">
+        <div class="ey2">Ask Iris anything</div>
+        <h3>Just say what you <em>want to happen.</em></h3>
+        <p>Tell Iris who you want to see, what needs to get done, or simply forward an email you've been meaning to act on. Iris figures out the calendar, the conflicts, and the follow-through.</p>
+        <div class="ask-chips">
+          <span class="ask-chip hi">👨‍👩‍👧 Plan a birthday dinner for Saturday</span>
+          <span class="ask-chip">Block my mornings this week</span>
+          <span class="ask-chip hi">✈️ Clear my calendar while I travel</span>
+          <span class="ask-chip">Find time for a long walk this week</span>
+          <span class="ask-chip">Reschedule tomorrow around school pickup</span>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="pc-hdr">
+          <div class="pc-ava">
+            <svg viewBox="0 0 36 22" width="20" height="13" overflow="visible">
+              <path d="M2,18 Q18,-4 34,18" fill="none" stroke="#ef4444" stroke-width="2.8" stroke-linecap="round"/>
+              <path d="M6,18 Q18,4 30,18"  fill="none" stroke="#f5c518" stroke-width="2.8" stroke-linecap="round"/>
+              <path d="M11,18 Q18,10 25,18" fill="none" stroke="#22c55e" stroke-width="2.8" stroke-linecap="round"/>
+              <path d="M16,18 Q18,16 20,18" fill="none" stroke="#5b5bd6" stroke-width="2.8" stroke-linecap="round"/>
+              <circle cx="2"  cy="18" r="2" fill="#5b5bd6"/>
+              <circle cx="34" cy="18" r="2" fill="#5b5bd6"/>
+            </svg>
+          </div>
+          <div><div class="pc-name">iris</div><div class="pc-sub">executive assistant</div></div>
+          <div class="pc-status"><span class="pc-dot"></span>thinking</div>
+        </div>
+        <div class="pc-msg">
+          <p>Sure! I found <strong>Saturday 7:30pm</strong> when everyone is free. Want me to book a table at Monteverde and send the invite with a +1 for Marco?</p>
+        </div>
+        <div class="pc-task"><span class="pc-task-dot" style="background:#22c55e"></span><span class="pc-task-t">Checked 4 calendars for Saturday availability</span><span class="pc-task-time">done</span></div>
+        <div class="pc-task"><span class="pc-task-dot" style="background:#f59e0b"></span><span class="pc-task-t">Found Monteverde has availability at 7:30</span><span class="pc-task-time">done</span></div>
+        <div class="pc-task"><span class="pc-task-dot" style="background:#5b5bd6;animation:blink 1.4s ease-in-out infinite"></span><span class="pc-task-t">Waiting for your confirmation…</span><span class="pc-task-time">—</span></div>
+        <div class="pc-inp">
+          <div class="pc-inp-f">Yes, book it and send the invite…</div>
+          <div class="pc-send"><svg viewBox="0 0 12 12"><path d="M1 6h10M7 2l4 4-4 4"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="feat-section" id="features">
+  <div class="sec-ey">Everything Iris does</div>
+  <h2 class="sec-h">Invisible by design.<br><em>Indispensable by morning.</em></h2>
+  <p class="sec-p">Iris doesn't wait to be asked. It learns the rhythm of your life and handles what it can — surfacing only the moments that deserve your attention.</p>
+  <div class="feat-grid">
+    <div class="fc" style="--fc-bg:rgba(239,68,68,.08);--fc-glow:rgba(239,68,68,.06);">
+      <div class="fc-icon">🌅</div>
+      <h3 class="fc-h">Your daily brief</h3>
+      <p class="fc-p">Every morning, a beautifully concise briefing surfaces what actually matters — unusual events, nudges, and the one thing to get ahead of today. No noise.</p>
+    </div>
+    <div class="fc" style="--fc-bg:rgba(91,91,214,.08);--fc-glow:rgba(91,91,214,.06);">
+      <div class="fc-icon">🗓</div>
+      <h3 class="fc-h">Calendar intelligence</h3>
+      <p class="fc-p">Iris syncs all your calendars — Google, Apple, Outlook — and resolves conflicts before you notice them. Cross-calendar awareness that works like magic.</p>
+    </div>
+    <div class="fc" style="--fc-bg:rgba(245,197,24,.08);--fc-glow:rgba(245,197,24,.06);">
+      <div class="fc-icon">✨</div>
+      <h3 class="fc-h">Smart approvals</h3>
+      <p class="fc-p">When Iris needs your input, it surfaces a single clear question. One tap confirms. You're always in the loop — Iris just does the legwork first.</p>
+    </div>
+    <div class="fc" style="--fc-bg:rgba(34,197,94,.08);--fc-glow:rgba(34,197,94,.06);">
+      <div class="fc-icon">🛡</div>
+      <h3 class="fc-h">Protected time</h3>
+      <p class="fc-p">Iris learns what matters most to you — focus blocks, family time, rest — and quietly defends those hours. Your boundaries, enforced without a word.</p>
+    </div>
+    <div class="fc" style="--fc-bg:rgba(14,165,233,.08);--fc-glow:rgba(14,165,233,.06);">
+      <div class="fc-icon">📩</div>
+      <h3 class="fc-h">Forward to Iris</h3>
+      <p class="fc-p">Got an email with a booking confirmation, an invite, or a request you've been meaning to act on? Forward it to Iris and it takes it from there.</p>
+    </div>
+    <div class="fc" style="--fc-bg:rgba(139,92,246,.08);--fc-glow:rgba(139,92,246,.06);">
+      <div class="fc-icon">🎯</div>
+      <h3 class="fc-h">Booking & reservations</h3>
+      <p class="fc-p">Iris finds the right slot, respects your priorities, and books on your behalf — including real-world reservations. Just say what you want.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="phil" id="why-iris">
+  <div class="sec-ey">Why Iris</div>
+  <h2 class="sec-h">An assistant that earns<br>the right to <em>interrupt.</em></h2>
+  <div class="phil-grid">
+    <div class="phil-big">
+      <div class="phil-big-inner">
+        <div class="phil-ey">The philosophy</div>
+        <h3 class="phil-big-h">Zero pending actions.<br><em>Always.</em></h3>
+        <p class="phil-big-p">Most apps want your attention. Iris is designed to need as little of it as possible. Success looks like a perfectly clear queue — and a life that runs itself, quietly and beautifully.</p>
+      </div>
+      <div class="phil-stat"><div class="ps-n">∞</div><div class="ps-l">time returned<br>to you</div></div>
+    </div>
+    <div class="phil-card">
+      <div class="pc2-ey">Background by design</div>
+      <h3 class="pc2-h">Not an app you <em>open.</em><br>One that opens for you.</h3>
+      <p class="pc2-p">Iris lives quietly in the background. It doesn't want your screen time — it wants your calendar to be right, your priorities to be clear, and your mornings to feel wonderful.</p>
+    </div>
+    <div class="phil-card">
+      <div class="pc2-ey">Always in the loop</div>
+      <h3 class="pc2-h">You're always the<br><em>final word.</em></h3>
+      <p class="pc2-p">Iris never acts unilaterally on anything that matters. Bookings, cancellations, invitations — they always get a confirmation first. One gentle tap. Clear and simple.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="download">
+  <div class="cta-inner">
+    <div style="display:flex;justify-content:center;margin-bottom:32px;">
+      <svg viewBox="0 0 160 100" width="120" height="75" style="display:block;overflow:visible;filter:drop-shadow(0 6px 24px rgba(91,91,214,.2))">
+        <path d="M8,78 Q80,-30 152,78"  fill="none" stroke="#ef4444" stroke-width="7" stroke-linecap="round"/>
+        <path d="M20,78 Q80,-4  140,78" fill="none" stroke="#f97316" stroke-width="7" stroke-linecap="round"/>
+        <path d="M33,78 Q80,18  127,78" fill="none" stroke="#f5c518" stroke-width="7" stroke-linecap="round"/>
+        <path d="M46,78 Q80,36  114,78" fill="none" stroke="#22c55e" stroke-width="7" stroke-linecap="round"/>
+        <path d="M59,78 Q80,50  101,78" fill="none" stroke="#3b9ede" stroke-width="7" stroke-linecap="round"/>
+        <path d="M72,78 Q80,62   88,78" fill="none" stroke="#5b5bd6" stroke-width="7" stroke-linecap="round"/>
+        <path d="M82,78 Q80,70   78,78" fill="none" stroke="#8b5cf6" stroke-width="7" stroke-linecap="round"/>
+        <line x1="0" y1="78" x2="160" y2="78" stroke="rgba(0,0,0,.07)" stroke-width="1.5"/>
+        <circle cx="8"   cy="78" r="7" fill="#5b5bd6"/>
+        <circle cx="152" cy="78" r="7" fill="#5b5bd6"/>
+      </svg>
+    </div>
+    <h2 class="cta-h">Your life,<br><em>handled.</em></h2>
+    <p class="cta-p">Iris is coming soon. Be among the first to experience an assistant that works for you — invisibly, intelligently, and with a little touch of magic.</p>
+    <div class="cta-btns">
+      <a href="#" onclick="return false;" class="btn-dl ios">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <div><div style="font-size:10px;font-weight:300;opacity:.65;margin-bottom:1px">Download on the</div><div>App Store</div></div>
+        <span class="csoon">Soon</span>
+      </a>
+      <a href="#" onclick="return false;" class="btn-dl and">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.33.2.7.24 1.06.12l11.81-6.82-2.52-2.52-10.35 9.22zM20.9 10.24l-2.83-1.63-2.82 2.82 2.82 2.82 2.85-1.64c.81-.46.81-1.9-.02-2.37zM1.01 1.35C.9 1.6.84 1.9.84 2.24v19.52c0 .34.06.64.17.89l.09.08 10.94-10.94v-.26L1.1 1.27l-.09.08zM14.06 8.43L3.24 1.61c-.36-.12-.73-.08-1.06.12l10.35 9.22 1.53-2.52z"/></svg>
+        <div><div style="font-size:10px;font-weight:300;opacity:.55;margin-bottom:1px">Get it on</div><div>Google Play</div></div>
+        <span class="csoon">Soon</span>
+      </a>
+    </div>
+    <button class="nav-cta" style="padding:15px 36px;border-radius:16px;font-size:15px;display:inline-flex;align-items:center;gap:8px;" onclick="showPage('signup')">
+      Join the waitlist ✦
+    </button>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-left">
+    <svg viewBox="0 0 54 34" width="36" height="22" style="display:block;overflow:visible">
+      <path d="M3,28 Q27,-8 51,28" fill="none" stroke="#ef4444" stroke-width="3" stroke-linecap="round"/>
+      <path d="M7,28 Q27,4 47,28"  fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round"/>
+      <path d="M12,28 Q27,13 42,28" fill="none" stroke="#f5c518" stroke-width="3" stroke-linecap="round"/>
+      <path d="M17,28 Q27,19 37,28" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round"/>
+      <path d="M21,28 Q27,23 33,28" fill="none" stroke="#3b9ede" stroke-width="3" stroke-linecap="round"/>
+      <path d="M24,28 Q27,26 30,28" fill="none" stroke="#5b5bd6" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="3"  cy="28" r="2.5" fill="#5b5bd6"/>
+      <circle cx="51" cy="28" r="2.5" fill="#5b5bd6"/>
+    </svg>
+    <span class="foot-wm">iris<em>.</em></span>
+    <span class="foot-copy">© 2025 Amore & Industrial LLC</span>
+  </div>
+  <div class="foot-links">
+    <a onclick="showPage('privacy')">Privacy Policy</a>
+    <a onclick="showPage('terms')">Terms of Service</a>
+    <a href="mailto:hello@hello-iris.com">Contact</a>
+  </div>
+</footer>
+</div><!-- /page-home -->
+
+
+<!-- ======== SIGN UP PAGE ======== -->
+<div class="page" id="page-signup">
+  <nav style="position:fixed;top:0;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(250,248,245,.85);backdrop-filter:blur(24px);border-bottom:1px solid rgba(91,91,214,.08);">
+    <a class="nav-logo" onclick="showPage('home');return false;" href="#">
+      <svg viewBox="0 0 54 34" width="44" height="28" style="display:block;overflow:visible">
+        <path d="M3,28 Q27,-8 51,28" fill="none" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M7,28 Q27,4 47,28"  fill="none" stroke="#f97316" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M12,28 Q27,13 42,28" fill="none" stroke="#f5c518" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M17,28 Q27,19 37,28" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M21,28 Q27,23 33,28" fill="none" stroke="#3b9ede" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M24,28 Q27,26 30,28" fill="none" stroke="#5b5bd6" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="3"  cy="28" r="3" fill="#5b5bd6"/>
+        <circle cx="51" cy="28" r="3" fill="#5b5bd6"/>
+      </svg>
+      <span class="nav-wordmark">iris<em>.</em></span>
+    </a>
+    <button class="lback" style="margin:0;" onclick="showPage('home')">
+      <svg viewBox="0 0 14 14"><path d="M9 2L4 7l5 5"/></svg>Back
+    </button>
+  </nav>
+
+  <div class="signup-page">
+    <div class="signup-body">
+      <div class="signup-blob1"></div>
+      <div class="signup-blob2"></div>
+      <div class="signup-card">
+
+        <div class="signup-logo">
+          <svg viewBox="0 0 160 100" width="100" height="63" style="display:block;overflow:visible">
+            <path d="M8,78 Q80,-30 152,78"  fill="none" stroke="#ef4444" stroke-width="7" stroke-linecap="round"/>
+            <path d="M20,78 Q80,-4  140,78" fill="none" stroke="#f97316" stroke-width="7" stroke-linecap="round"/>
+            <path d="M33,78 Q80,18  127,78" fill="none" stroke="#f5c518" stroke-width="7" stroke-linecap="round"/>
+            <path d="M46,78 Q80,36  114,78" fill="none" stroke="#22c55e" stroke-width="7" stroke-linecap="round"/>
+            <path d="M59,78 Q80,50  101,78" fill="none" stroke="#3b9ede" stroke-width="7" stroke-linecap="round"/>
+            <path d="M72,78 Q80,62   88,78" fill="none" stroke="#5b5bd6" stroke-width="7" stroke-linecap="round"/>
+            <path d="M82,78 Q80,70   78,78" fill="none" stroke="#8b5cf6" stroke-width="7" stroke-linecap="round"/>
+            <line x1="0" y1="78" x2="160" y2="78" stroke="rgba(0,0,0,.07)" stroke-width="1.5"/>
+            <circle cx="8"   cy="78" r="7" fill="#5b5bd6"/>
+            <circle cx="152" cy="78" r="7" fill="#5b5bd6"/>
+          </svg>
+        </div>
+
+        <h2 class="signup-h">Join the <em>waitlist</em></h2>
+        <p class="signup-sub">Iris is almost here. Leave your details and we'll reach out when your spot is ready.</p>
+
+        <!-- Success state -->
+        <div class="signup-success" id="signup-success">
+          <div class="signup-success-icon">🌈</div>
+          <h3>You're on the list, <em id="success-name">friend</em></h3>
+          <p>We'll be in touch when Iris is ready for you. In the meantime, tell a friend who could use a little magic in their life.</p>
+        </div>
+
+        <!-- Form -->
+        <div id="signup-form-inner">
+          <div class="form-row-2 form-row">
+            <div>
+              <label>First name</label>
+              <input type="text" id="f-first" name="first_name" placeholder="Marina" autocomplete="given-name">
+            </div>
+            <div>
+              <label>Last name</label>
+              <input type="text" id="f-last" name="last_name" placeholder="Malaguti" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Email address</label>
+            <input type="email" id="f-email" name="email" placeholder="marina@iris.ai" autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label>How do you imagine using Iris?</label>
+            <div class="use-pills">
+              <div class="use-pill">
+                <input type="radio" name="use_case" id="u1" value="Personal life — family, friends, balance" checked>
+                <label for="u1"><span class="use-pill-icon">👨‍👩‍👧</span><span class="use-pill-label">Personal life</span><span class="use-pill-sub">Family, friends, balance</span></label>
+              </div>
+              <div class="use-pill">
+                <input type="radio" name="use_case" id="u2" value="Work — meetings, focus, schedule">
+                <label for="u2"><span class="use-pill-icon">💼</span><span class="use-pill-label">Work</span><span class="use-pill-sub">Meetings, focus, schedule</span></label>
+              </div>
+              <div class="use-pill">
+                <input type="radio" name="use_case" id="u3" value="Both — the whole picture">
+                <label for="u3"><span class="use-pill-icon">✨</span><span class="use-pill-label">Both</span><span class="use-pill-sub">The whole picture</span></label>
+              </div>
+              <div class="use-pill">
+                <input type="radio" name="use_case" id="u4" value="My team — team scheduling">
+                <label for="u4"><span class="use-pill-icon">🚀</span><span class="use-pill-label">My team</span><span class="use-pill-sub">Team scheduling</span></label>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label>How did you hear about Iris? <span style="font-weight:300;color:var(--ink4);">(optional)</span></label>
+            <select id="f-ref" name="referral">
+              <option value="">Choose one…</option>
+              <option>A friend or colleague</option>
+              <option>Social media</option>
+              <option>Newsletter</option>
+              <option>Search</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <button class="signup-btn" onclick="submitSignup(event)">Reserve my spot ✦</button>
+          <p class="signup-terms">By joining you agree to our <a onclick="showPage('terms')">Terms of Service</a> and <a onclick="showPage('privacy')">Privacy Policy</a>. We'll only email you about Iris.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <footer style="border-top:1px solid var(--border);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;background:var(--s1);">
+      <span style="font-size:11px;color:var(--ink4);font-family:'DM Mono',monospace;">© 2025 Amore & Industrial LLC</span>
+      <div style="display:flex;gap:24px;">
+        <a onclick="showPage('privacy')" style="font-size:13px;color:var(--ink4);text-decoration:none;cursor:pointer;font-weight:300;">Privacy Policy</a>
+        <a onclick="showPage('terms')" style="font-size:13px;color:var(--ink4);text-decoration:none;cursor:pointer;font-weight:300;">Terms of Service</a>
+      </div>
+    </footer>
+  </div>
+</div><!-- /page-signup -->
+
+
+<!-- ======== PRIVACY PAGE ======== -->
+<div class="page" id="page-privacy">
+  <nav style="position:fixed;top:0;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;padding:0 48px;background:rgba(250,248,245,.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(91,91,214,.08);">
+    <a class="nav-logo" onclick="showPage('home');return false;" href="#">
+      <svg viewBox="0 0 54 34" width="44" height="28" style="display:block;overflow:visible"><path d="M3,28 Q27,-8 51,28" fill="none" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round"/><path d="M7,28 Q27,4 47,28" fill="none" stroke="#f97316" stroke-width="3.5" stroke-linecap="round"/><path d="M12,28 Q27,13 42,28" fill="none" stroke="#f5c518" stroke-width="3.5" stroke-linecap="round"/><path d="M17,28 Q27,19 37,28" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round"/><path d="M21,28 Q27,23 33,28" fill="none" stroke="#3b9ede" stroke-width="3.5" stroke-linecap="round"/><path d="M24,28 Q27,26 30,28" fill="none" stroke="#5b5bd6" stroke-width="3.5" stroke-linecap="round"/><circle cx="3" cy="28" r="3" fill="#5b5bd6"/><circle cx="51" cy="28" r="3" fill="#5b5bd6"/></svg>
+      <span class="nav-wordmark">iris<em>.</em></span>
+    </a>
+  </nav>
+  <div class="legal-page">
+    <button class="lback" onclick="showPage('home')"><svg viewBox="0 0 14 14"><path d="M9 2L4 7l5 5"/></svg>Back to Iris</button>
+    <div class="ley">Legal</div><h1 class="lh1">Privacy Policy</h1><div class="lrev">Effective: June 2025</div>
+    <div class="lsec"><p>Iris is provided by Amore & Industrial LLC ("we", "us", or "our"), a software company incorporated in Delaware, USA. This Privacy Policy explains how we collect, use, and protect your personal information when you use the Iris application and related services (the "Service"). Privacy isn't a feature — it's a foundation. Iris works quietly in the background of your life, and we take the trust that requires very seriously.</p></div>
+    <div class="ldiv"></div>
+    <div class="lsec"><h2>1. Information we collect</h2><p>We collect the minimum necessary to make Iris genuinely useful:</p><ul><li><strong>Account information</strong> — your name, email address, and time zone when you register.</li><li><strong>Calendar data</strong> — events, schedules, and metadata from calendars you connect (Google, Apple, Microsoft). We access only what's needed to serve you.</li><li><strong>Forwarded emails</strong> — when you choose to forward emails to Iris, we process those messages to take action on your behalf. We do not access your inbox directly.</li><li><strong>Usage data</strong> — how you interact with the Service, to help us improve it over time.</li></ul></div>
+    <div class="lsec"><h2>2. How we use your information</h2><p>We use your information to provide and personalize the Service, deliver your daily brief and calendar intelligence, communicate with you about your account, and keep things secure. We do not use your information for advertising, and we will never sell your data.</p></div>
+    <div class="lsec"><h2>3. Third-party connections</h2><p>When you connect Iris to third-party platforms, those connections are governed by each platform's own privacy policy. We handle your data with the same care regardless of source. We never transfer your data to third parties for advertising, resale, credit determination, or any purpose unrelated to providing the Service.</p></div>
+    <div class="lsec"><h2>4. Cookies</h2><p>We use essential cookies to keep you signed in and understand how the Service is used. No advertising or tracking cookies. You may manage cookie preferences through your browser settings.</p></div>
+    <div class="lsec"><h2>5. Data security</h2><p>We use industry-standard security measures — encryption in transit and at rest, access controls, regular audits. No internet service can guarantee absolute security, and we encourage strong, unique passwords.</p></div>
+    <div class="lsec"><h2>6. Your rights & access</h2><p>You may access, update, or delete your personal information at any time through account settings. To request complete deletion, contact us below — we'll process it within 30 days.</p></div>
+    <div class="lsec"><h2>7. Children's privacy</h2><p>Iris is not directed to individuals under 13. We do not knowingly collect personal information from children under 13. If we become aware of such collection, we will delete it promptly.</p></div>
+    <div class="lsec"><h2>8. Data transfer</h2><p>Your information may be stored or processed in the United States or other countries where we or our service providers operate. By using the Service, you consent to this transfer.</p></div>
+    <div class="lsec"><h2>9. Changes to this policy</h2><p>We may update this Privacy Policy from time to time. We'll notify you of significant changes by email. Continued use after changes constitutes acceptance.</p></div>
+    <div class="lcont">
+      <p style="font-size:13px;font-weight:500;color:var(--ink2);margin-bottom:14px;">Contact us</p>
+      <p>For privacy questions, data requests, or to exercise your rights, reach us through any of the following:</p>
+      <p style="margin-top:10px;">
+        📧 <strong>Email:</strong> <a href="mailto:hello@hello-iris.com">hello@hello-iris.com</a><br><br>
+        🌐 <strong>Website:</strong> <a href="https://www.hello-iris.com" target="_blank">www.hello-iris.com</a><br><br>
+        📬 <strong>Mail:</strong><br>
+        Amore &amp; Industrial LLC · Marina Malaguti<br>
+        601 W Jackson Blvd, #1207<br>
+        Chicago, IL 60661, USA
+      </p>
+      <p style="margin-top:14px;font-style:italic;color:var(--ink4);">We respond to all privacy-related inquiries within 5 business days.</p>
+    </div>
+  </div>
+  <footer style="border-top:1px solid var(--border);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;background:var(--s1);"><span style="font-size:11px;color:var(--ink4);font-family:'DM Mono',monospace;">© 2025 Amore &amp; Industrial LLC</span><div style="display:flex;gap:24px;"><a onclick="showPage('home')" style="font-size:13px;color:var(--ink4);text-decoration:none;cursor:pointer;">Home</a><a onclick="showPage('terms')" style="font-size:13px;color:var(--ink4);text-decoration:none;cursor:pointer;">Terms of Service</a></div></footer>
+</div>
+
+
+<!-- ======== TERMS PAGE ======== -->
+<div class="page" id="page-terms">
+  <nav style="position:fixed;top:0;left:0;right:0;z-index:200;height:68px;display:flex;align-items:center;padding:0 48px;background:rgba(250,248,245,.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(91,91,214,.08);">
+    <a class="nav-logo" onclick="showPage('home');return false;" href="#">
+      <svg viewBox="0 0 54 34" width="44" height="28" style="display:block;overflow:visible"><path d="M3,28 Q27,-8 51,28" fill="none" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round"/><path d="M7,28 Q27,4 47,28" fill="none" stroke="#f97316" stroke-width="3.5" stroke-linecap="round"/><path d="M12,28 Q27,13 42,28" fill="none" stroke="#f5c518" stroke-width="3.5" stroke-linecap="round"/><path d="M17,28 Q27,19 37,28" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round"/><path d="M21,28 Q27,23 33,28" fill="none" stroke="#3b9ede" stroke-width="3.5" stroke-linecap="round"/><path d="M24,28 Q27,26 30,28" fill="none" stroke="#5b5bd6" stroke-width="3.5" stroke-linecap="round"/><circle cx="3" cy="28" r="3" fill="#5b5bd6"/><circle cx="51" cy="28" r="3" fill="#5b5bd6"/></svg>
+      <span class="nav-wordmark">iris<em>.</em></span>
+    </a>
+  </nav>
+  <div class="legal-page">
+    <button class="lback" onclick="showPage('home')"><svg viewBox="0 0 14 14"><path d="M9 2L4 7l5 5"/></svg>Back to Iris</button>
+    <div class="ley">Legal</div><h1 class="lh1">Terms of Service</h1><div class="lrev">Effective: June 2025</div>
+    <div class="lsec"><p>These Terms of Service ("Terms") govern your use of the Iris application and all related services (the "Service") provided by Amore & Industrial LLC. By accessing or using the Service, you agree to be bound by these Terms. The Service is available only to individuals at least 13 years of age.</p></div>
+    <div class="ldiv"></div>
+    <div class="lsec"><h2>1. Your account</h2><p>To use certain features, you'll need to register and maintain an active account. You're responsible for keeping your credentials confidential and for all activity under your account. Notify us immediately of any unauthorized use.</p></div>
+    <div class="lsec"><h2>2. Permitted use</h2><p>The Service is for your personal and professional use. You may not:</p><ul><li>Reverse engineer, decompile, or extract the source code of the Service</li><li>Modify, create derivatives from, or sublicense any part of the Service</li><li>Use the Service for timesharing, service bureau, or commercial resale</li><li>Remove or obscure any proprietary notices or branding</li><li>Use the Service in any way that violates applicable law</li></ul></div>
+    <div class="lsec"><h2>3. Intellectual property</h2><p>All title, ownership, and intellectual property in the Service belong to Amore & Industrial LLC. Your data remains yours.</p></div>
+    <div class="lsec"><h2>4. Fees & payment</h2><p>The Service may offer optional paid features or subscription tiers. By selecting a paid plan, you agree to the fees shown at purchase. Subscription fees are non-refundable except where required by law. We'll give reasonable notice before changing pricing.</p></div>
+    <div class="lsec"><h2>5. Service availability</h2><p>We aim to keep Iris running beautifully, but we may modify, suspend, or discontinue the Service at any time. We're not liable for any interruption or discontinuation.</p></div>
+    <div class="lsec"><h2>6. Termination</h2><p>Iris may terminate or suspend your access at any time. Provisions that should survive termination — ownership, disclaimers, indemnity, limitations of liability — will continue to apply.</p></div>
+    <div class="lsec"><h2>7. Disclaimer of warranties</h2><p>The Service is provided "as is" and "as available," without warranties of any kind. Use is at your own risk.</p></div>
+    <div class="lsec"><h2>8. Limitation of liability</h2><p>To the fullest extent permitted by law, Amore & Industrial LLC shall not be liable for indirect, incidental, or consequential damages. Our total liability shall not exceed the amount you paid us in the prior twelve months.</p></div>
+    <div class="lsec"><h2>9. Changes to these Terms</h2><p>We may update these Terms from time to time and will notify you of material changes by email. Continued use after changes constitutes acceptance.</p></div>
+    <div class="lsec"><h2>10. Governing law</h2><p>These Terms are governed by the laws of the State of Delaware, USA.</p></div>
+    <div class="lcont"><p>Questions? Reach us at <a href="mailto:hello@hello-iris.com">hello@hello-iris.com</a> or:<br><br>Amore & Industrial LLC · Marina Malaguti<br>601 W Jackson Blvd, #1207 · Chicago, IL 60661, USA</p></div>
+  </div>
+  <footer style="border-top:1px solid var(--border);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;background:var(--s1);"><span style="font-size:11px;color:var(--ink4);font-family:'DM Mono',monospace;">© 2025 Amore & Industrial LLC</span><div style="display:flex;gap:24px;"><a onclick="showPage('home')" style="font-size:13px;color:var(--ink4);text-decoration:none;cursor:pointer;">Home</a><a onclick="showPage('privacy')" style="font-size:13px;color:var(--ink4);text-decoration:none;cursor:pointer;">Privacy Policy</a></div></footer>
+</div>
+
+<script>
+function showPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+n).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function scrollToSection(id){
+  showPage('home');
+  setTimeout(()=>{
+    const el=document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  },120);
+}
+function toggleNav(){
+  document.getElementById('nav-links').classList.toggle('open');
+}
+async function submitSignup(e){
+  e.preventDefault();
+  const first = document.getElementById('f-first').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  if(!first){ document.getElementById('f-first').focus(); return; }
+  if(!email || !email.includes('@')){ document.getElementById('f-email').focus(); return; }
+
+  const btn = document.querySelector('.signup-btn');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  const data = {
+    first_name: first,
+    last_name: document.getElementById('f-last').value.trim(),
+    email: email,
+    use_case: document.querySelector('input[name="use_case"]:checked')?.value || '',
+    referral: document.getElementById('f-ref').value
+  };
+
+  try {
+    const res = await fetch('https://formspree.io/f/mvznzbke', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if(res.ok){
+      document.getElementById('signup-form-inner').style.display = 'none';
+      const s = document.getElementById('signup-success');
+      s.classList.add('show');
+      document.getElementById('success-name').textContent = first;
+    } else {
+      btn.textContent = 'Something went wrong — try again';
+      btn.disabled = false;
+    }
+  } catch(err){
+    btn.textContent = 'Something went wrong — try again';
+    btn.disabled = false;
+  }
+}
+const h=window.location.hash;
+if(h==='#privacy') showPage('privacy');
+else if(h==='#terms') showPage('terms');
+else if(h==='#signup') showPage('signup');
+</script>
+</body>
+</html>
